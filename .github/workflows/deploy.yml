@@ -6,6 +6,7 @@ on:
   push:
     branches:
       - main
+      - feature/devsecops-blog-setup
 
 jobs:
   build:
@@ -16,15 +17,14 @@ jobs:
         with:
           fetch-depth: 0
       
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 18
-          cache: 'pnpm'
-      
       - name: Install pnpm
         uses: pnpm/action-setup@v2
         with:
-          version: 8
+          version: 10
+      
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
       
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -36,7 +36,7 @@ jobs:
         run: pnpm build && cp -r build github-pages
       
       - name: Upload Build Artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v4
         with:
           path: github-pages
 
